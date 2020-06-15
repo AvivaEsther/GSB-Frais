@@ -242,7 +242,41 @@ class PdoGsb
             $requetePrepare->bindParam(':idFrais', $unIdFrais, PDO::PARAM_STR);
             $requetePrepare->execute();
         }
+    } 
+    /**
+     * Met à jour la table ligneFraisHorsForfait
+     * Met à jour la table ligneFraisHorsForfait pour un visiteur et
+     * un mois donné en enregistrant les nouveaux montants
+     *
+     * @param String $idVisiteur ID du visiteur
+     * @param String $mois       Mois sous la forme aaaamm
+     * @param Array  $lesFrais   tableau associatif de clé idFrais et
+     *                           de valeur la quantité pour ce frais
+     *
+     * @return null
+     */
+    public function majFraisHorsForfait($idVisiteur,  $id ,$mois, $date, $libelle, $montant)
+    {
+             $dateFr = dateFrancaisVersAnglais($date);
+             $requetePrepare = PdoGSB::$monPdo->prepare(
+                'UPDATE lignefraishorsforfait '
+                . 'SET lignefraishorsforfait.date = :uneDate '
+                . ' lignefraishorsforfait.libelle = :unLibelle '
+                . ' lignefraishorsforfait.montant = :unMontant '
+                . 'WHERE lignefraishorsforfait.idvisiteur = :unIdVisiteur '
+                . 'AND lignefraishorsforfait.mois = :unMois '
+                . 'AND lignefraishorsforfait.id = :idFrais'
+            );
+            $requetePrepare->bindParam(':uneDate', $dateFr, PDO::PARAM_INT);
+            $requetePrepare->bindParam(':unLibelle', $libelle, PDO::PARAM_INT);
+            $requetePrepare->bindParam(':unMontant', $montant, PDO::PARAM_INT);
+            $requetePrepare->bindParam(':unIdVisiteur', $idVisiteur, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unMois', $mois, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':idFrais', $id, PDO::PARAM_STR);
+            $requetePrepare->execute();
+        
     }
+
 
     /**
      * Met à jour le nombre de justificatifs de la table ficheFrais
@@ -554,8 +588,17 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetchAll();
     }
+    public function getListeMois()
+    {
+        $requetePrepare = PdoGsb::$monPdo->prepare(
+            'SELECT *'
+            . 'FROM Mois '
+            .' Order by nom');
+      
+        $requetePrepare->execute();
+        return $requetePrepare->fetchAll();
            
     }
     
-   
+}
 

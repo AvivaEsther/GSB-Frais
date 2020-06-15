@@ -24,3 +24,5 @@ if ($estVisiteurConnecte) {
 }else{
     include 'vues/v_connexion.php';
 }
+
+

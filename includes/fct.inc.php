@@ -90,10 +90,13 @@ function dateAnglaisVersFrancais($maDate)
  *
  * @return String Mois au format aaaamm
  */
+
 function getMois($date)
-{
+{   
     @list($jour, $mois, $annee) = explode('/', $date);
+    //retire la variable
     unset($jour);
+    //strlen vérifie la longueur d'une chaîne (dans ce cas s'il y a 1 caractère alors on rajouter un 0 devant sinon il ne se passe rien, on renvoit le mois tel quel)
     if (strlen($mois) == 1) {
         $mois = '0' . $mois;
     }
@@ -271,37 +274,40 @@ function estVisteurConnecte()
        return ($_SESSION['statut']== 'comptable');
    } 
 }
-    function getMoisPrecedent($mois)
-{
-    $numAnnee = substr($mois, 0, 4);  //recupere les 4 premiers caracteres
-    $numMois = substr($mois, 4, 2);   //recupere les 2 caracteres a partir du 4e
-    if($numMois==01){
-       $numMois=12;
-    $numAnnee--; //-- = année precedente
-    }else{
-        $numMois--;
-    }
-    return $numAnnee.$numMois;
-   
-}
-function getListeMois($mois)
-{
-      $lesMois=array();
-  for($k=0;$k<12;$k++){
-   $mois= getMoisPrecedent($mois);
-   $numAnnee = substr($mois, 0, 4);
-   $numMois = substr($mois, 4, 2);
+   function getMoisPrecedent($mois){
+   $numAnnee = substr($mois, 0, 4);  //recupere les 4 premiers caracteres
+   $numMois = substr($mois, 4, 2);   //recupere les 2 caracteres a partir du 4e
+   if($numMois==01){
+      $numMois=12;
+   $numAnnee--; //-- = année precedente
+   }else{
+       $numMois--;
+   }
    if (strlen($numMois) == 1) {
        $numMois = '0' . $numMois;
    }
-   $lesMois[] = array(
-               'mois'=>$mois,
-               'numMois' => $numMois,
-               'numAnnee' => $numAnnee
-           );
+   return $numAnnee.$numMois;
 }
- return $lesMois;
 
-   } 
+function getListeMois ($mois){
+  $lesMois=array();
+  for($k=0;$k<12;$k++){
+     $mois= getMoisPrecedent($mois);
+     $numAnnee = substr($mois, 0, 4);
+     $numMois = substr($mois, 4, 2);
+     if (strlen($numMois) == 1) {
+       $numMois = '0' . $numMois;
+     } 
+     $lesMois[] = array(
+                'mois' => $mois,
+                'numAnnee' => $numAnnee,
+                'numMois' => $numMois
+            );
+      }
+      return $lesMois;
+  }
+ 
+   
+   
 
 

@@ -1,18 +1,18 @@
-
+    
 
 
 
 <?php
 /**
-* Vue valider frais
-*
-* PHP Version 7
-*
-* @category  PPE
-* @package   GSB
-* @author   Beth Sefer, BEN CHIMOL
-
-*/
+ * Controleur Valider Frais
+ * 
+ * PHP Version 7
+ * 
+ * @category PPE
+ * @package GSB
+ * author AVIVA esther Ben chimol
+ * @author Beth Sefer
+ */
 ?>
 <h2>Valider mes fiches de frais</h2>
 <div class="row">
